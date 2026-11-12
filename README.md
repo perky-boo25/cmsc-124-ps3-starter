@@ -4,6 +4,11 @@
 This repository holds the CLISP prediction corpus and the toy evaluator for
 Problem Set 3. The assignment manual defines the work and the submission rules.
 
+## Pair
+
+- Percie Louise Y. Samaniego (`@perky-boo25`)
+- Aleighia Keith L. Reyes (`@akreyes9`)
+
 ## Layout
 
 ```text
