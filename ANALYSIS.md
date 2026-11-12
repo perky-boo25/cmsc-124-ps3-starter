@@ -22,3 +22,26 @@
 `env` is where the `lambda` was written, and `make-closure` stores it in the closure.
 
 **Contents at capture:** `((y . 10))`. It holds only `y` from the `let`. It does not hold `x`, which is added at call time, or anything from where the closure is called.
+
+**Dynamic Scope Alternative:**
+
+In `apply-closure`, we evaluate the body using `(eval-expr body (extend-env params args saved-env))`, where `saved-env` is the environment captured when the closure was created.
+
+If we extend the caller's environment instead, evaluating `(f 1)` inside the scope-discrimination case:
+
+```lisp
+(let ((x 2))
+  (let ((f (lambda (y) (+ x y))))
+    (let ((x 100))
+      (f 1))))
+```
+
+This would put `(y . 1)` at the front of the caller's environment, where `(x . 100)` is already located. When `eval-expr` evaluates `(+ x y)`, `lookup` (`assoc`) would find `(x . 100)` before `(x . 2)`, returning `101` instead of `3`.
+
+This would make our toy language dynamically scoped instead of lexically scoped.
+
+**Why CLISP Needs `funcall`:**
+
+Our toy evaluator is a Lisp-1, meaning it uses one shared environment `env` for both numbers and closures. In `eval-expr`, the `otherwise` branch evaluates `(eval-expr (car expr) env)`, so `(f 1)` directly looks up `f` in `env`.
+
+However, CLISP is a Lisp-2, meaning it has separate namespaces for functions and values. Because of this, calling a closure stored in a variable requires `funcall`, while passing a named function requires `#'`.
