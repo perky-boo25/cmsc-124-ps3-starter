@@ -12,28 +12,28 @@ wrongly. Say what you predicted, what CLISP printed, and which rule you
 misread. Those entries belong in the correction commits.
 
 ## P01
-Replace this line with the rule behind this case's four fields.
+`(+ 1 (* 2 3))` heads with the function `+`, so its arguments are evaluated before the call. The inner `(* 2 3)` is also a function call that returns the integer 6, so `+` receives 1 and 6 and returns 7. Seven is an integer, so the length is none.
 
 ## P02
-Replace this line with the rule behind this case's four fields.
+`'(+ 1 2)` is `(quote (+ 1 2))`, so its head is the special operator `quote`, which returns its argument unevaluated. The value is the list `(+,1,2)`, which is a nonempty list, so the kind is cons and the length is 3.
 
 ## P03
-Replace this line with the rule behind this case's four fields.
+`nil` is an atom, so it evaluates to itself and has no operator. Its kind is null (the course reserves null for nil only), and since nil is the empty sequence, its length is 0.
 
 ## P04
-Replace this line with the rule behind this case's four fields.
+`t` is an atom, so it evaluates to itself and has no operator. It is a symbol that is not nil, so its kind is symbol, and a symbol is not a sequence, so the length is none.
 
 ## P05
-Replace this line with the rule behind this case's four fields.
+`(symbolp nil)` heads with the function `symbolp`, which checks whether its argument is a symbol. `nil` is a symbol (as well as the empty list and false), so the result is `t`. `t` is a symbol, so the kind is symbol and the length is none.
 
 ## P06
-Replace this line with the rule behind this case's four fields.
+`(car '())` heads with the function `car`, which returns the first element of a list. The argument `'()` is the empty list, which is the same object as nil, and `car` of the empty list is nil. The value is `nil`, the kind is null, and the length is 0.
 
 ## P07
-Replace this line with the rule behind this case's four fields.
+`(cons 1 '(2 3))` heads with the function `cons`, which builds a new list with 1 in front. Its arguments are evaluated left to right: `1` is an integer and `'(2 3)` is a plain list. The result is `(1,2,3)`, a nonempty list, so the kind is cons and the length is 3.
 
 ## P08
-Replace this line with the rule behind this case's four fields.
+`(if (null '()) 'empty 'full)` heads with the special operator `if`, which evaluates the condition first and then only one branch. `'()` is nil, so `(null '())` is true and `if` evaluates `'empty`, which returns the symbol `empty`. The kind is symbol and the length is none.
 
 ## P09
 `(and 1 nil 3)` evaluates everything from left to right but stops as soon as it encounters `nil`, so `3` never gets evaluated. The result is `nil` with kind `null` and length `0`, and its operator is `special-operator` because CLISP checks `special-operator-p` before `macro-function`.
